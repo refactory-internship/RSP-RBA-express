@@ -1,4 +1,4 @@
-const { User } = require('../db/models');
+const { User, PhotoRooms } = require('../db/models');
 const cloudinary = require('../middleware/cloudinary');
 // const Role = require('../db/models/role');
 
@@ -61,6 +61,48 @@ class testingController {
         } catch (error) {
             console.log(error);
         }
+    }
+
+    static async uploadMultiple(req, res) {
+        try {
+            if (req.files) {
+                //empty array to store the urls and public id
+                const imageSecureURL = [];
+                const imagePublicId = [];
+
+                //store files for looping
+                const files = req.files;
+
+                for (let index = 0; index < files.length; index++) {
+                    const path = files[index].path;
+                    const data = await cloudinary.uploader.upload(path, {
+                        folder: 'rsp-backend/rooms',
+                        public_id: 'roomId_' + req.params['id'] + '_image_' + index
+                    });
+                    imageSecureURL.push(data.secure_url);
+                    imagePublicId.push(data.public_id);
+                }
+                res.status(200).json({
+                    secure_url: imageSecureURL,
+                    public_id: imagePublicId
+                })
+            } else if (req.files === undefined) {
+                res.send({
+                    message: `You don't have any image to upload`
+                })
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    static async storeRoomPhotos(req, res) {
+        const data = await PhotoRooms.create({
+            RoomId: 1,
+            photo: req.body.photo,
+            cloudinary_id: req.body.cloudinary_id
+        });
+        res.json(data);
     }
 }
 

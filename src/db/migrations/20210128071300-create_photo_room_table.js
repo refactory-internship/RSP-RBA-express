@@ -1,18 +1,26 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Rooms', {
+    await queryInterface.createTable('PhotoRooms', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      room_name: {
+      roomId: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'Rooms',
+          key: 'id'
+        }
+      },
+      photo: {
         type: Sequelize.STRING
       },
-      room_capacity: {
-        type: Sequelize.INTEGER
+      cloudinary_id: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -21,14 +29,16 @@ module.exports = {
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE
-      },
-      deletedAt: {
-        allowNull: true,
-        type: Sequelize.DATE
       }
-    });
+    })
   },
+
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Rooms');
+    /**
+     * Add reverting commands here.
+     *
+     * Example:
+     * await queryInterface.dropTable('users');
+     */
   }
 };
