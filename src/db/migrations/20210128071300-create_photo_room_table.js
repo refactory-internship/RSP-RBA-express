@@ -11,6 +11,7 @@ module.exports = {
       roomId: {
         allowNull: false,
         type: Sequelize.INTEGER,
+        onDelete: 'CASCADE',
         references: {
           model: 'Rooms',
           key: 'id'

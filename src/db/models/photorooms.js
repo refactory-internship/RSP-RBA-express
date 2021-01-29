@@ -7,7 +7,9 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   PhotoRooms.associate = models => {
-    PhotoRooms.belongsTo(models.Room)
+    PhotoRooms.belongsTo(models.Room, {
+      onDelete: 'CASCADE'
+    })
   }
   return PhotoRooms;
 };

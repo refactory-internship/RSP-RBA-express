@@ -29,22 +29,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
-
 app.use(bodyParser.json()); // for parsing application/json
 
-// for parsing multipart/form-data
-// app.use(upload.array());
-// app.use(express.static('public'));
-
-// Passport middleware
-app.use(passport.initialize());
-// Passport config
-require("./src/config/passport")(passport);
+app.use(passport.initialize()); // Passport middleware
+require("./src/config/passport")(passport); // Passport config
 
 //Load routes
 app.use(routes);
-require('./src/routes/auth/authorization')(app);
 
 module.exports = app;

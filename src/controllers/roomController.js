@@ -35,7 +35,7 @@ class roomController {
                         folder: 'rsp-backend/rooms',
                         public_id: 'roomNo_' + data.id + '_image_' + index
                     });
-                    //push the urls and public id into empty array
+                    //push the urls and public id into empty arrays
                     imageSecureURL.push(upload.secure_url);
                     imagePublicId.push(upload.public_id);
 

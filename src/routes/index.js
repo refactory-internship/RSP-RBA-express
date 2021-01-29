@@ -8,9 +8,8 @@ router.get('/', function (req, res, next) {
 });
 
 // Import routes
-const testing = require('./testing');
 const auth = require('./api/auth');
-const guest = require('./guest');
+const booking = require('./booking');
 const room = require('./room');
 
 const middleware = [
@@ -19,9 +18,8 @@ const middleware = [
 ]
 
 //Route using
-router.use('/testing', testing);
 router.use('/api/auth', auth);
-router.use('/rsp/guest/book', middleware[0], guest);
+router.use('/rsp/guest/book', middleware[0], booking);
 router.use('/rsp/admin/room', middleware, room);
 
 module.exports = router;
