@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 module.exports = {
-    sendMail: async (user) => {
+    sendMail: async (user, subject, text) => {
         try {
             const transport = nodemailer.createTransport({
                 host: "smtp.mailtrap.io",
@@ -13,10 +13,10 @@ module.exports = {
             });
 
             const mailOptions = {
-                from: '"RSP-TEST" <rsp@example.com>',
+                from: '"RSP-Admin" <rsp@example.com>',
                 to: user,
-                subject: 'Room Booking Details',
-                text: 'Hello! This is your details for your booking on our room!'
+                subject: subject,
+                text: text
             }
 
             transport.sendMail(mailOptions, () => { });

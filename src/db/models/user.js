@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
 
     User.associate = models => {
         User.belongsTo(models.Role);
+        User.hasMany(models.Booking)
     }
 
     return User;
