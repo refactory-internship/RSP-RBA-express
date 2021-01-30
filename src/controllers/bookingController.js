@@ -65,7 +65,10 @@ class bookingController {
 
     static async yourBookings(req, res) {
         const decoded = jwt.verify(req.headers['x-access-token'], key.secretOrKey);
+        //since the JWT only contains id of the user, time the token was issued, and its expiration time,
+        //we need to get user data by finding it with the id decoded from the payload
 
+        //find the user by its id from JWT payload and find the bookings related
         await User.findOne({
             where: {
                 id: decoded.id
@@ -84,11 +87,10 @@ class bookingController {
         //since the JWT only contains id of the user, time the token was issued, and its expiration time,
         //we need to get user data by finding it with the id decoded from the payload
         const user = await User.findByPk(decoded.id);
-
+        //update check in time when the user is requesting to check in
         const check_in_time = new Date();
 
-
-
+        //find booking by its id and then updating it
         await Booking.findOne({
             where: {
                 id: req.params['id']
@@ -97,6 +99,7 @@ class bookingController {
             booking.update({
                 check_in_time: check_in_time
             }).then((result) => {
+                //notify user has checked in by email
                 sendMail(user.email, 'Check-In Details', 'Hello! This is an email regarding your check in on our rooms!')
                 res.json({
                     message: 'An email regarding your check in has been sent!',
