@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   Room.associate = models => {
-    Room.hasMany(models.Booking);
+    Room.hasOne(models.Booking);
     Room.hasMany(models.PhotoRooms);
   }
   return Room;
